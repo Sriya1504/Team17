@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <i class="fas fa-user-circle fa-4x"></i>
+                </div>
+                <div class="profile-info">
+                    <h2>{{ student.name }}</h2>
+                    <p>{{ student.roll_number }}</p>
+                    <p>{{ student.branch }} - Year {{ student.year }}</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="analysis">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analysis Report</span>
+                </a>
+                <a href="#" class="nav-item" data-section="marks">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>View Marks</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Student Dashboard</h1>
+                <div class="header-actions">
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Analysis Report Section -->
+            <section id="analysis" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Performance Analysis</h2>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h3>Overall Performance</h3>
+                        <div class="chart-container">
+                            <canvas id="overallChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h3>Subject Performance</h3>
+                        <div class="chart-container">
+                            <canvas id="subjectChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Total Tests</h4>
+                                <p>{{ total_tests }}</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Average Score</h4>
+                                <p>{{ average_score }}%</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Best Subject</h4>
+                                <p>{{ best_subject }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marks Section -->
+            <section id="marks" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Test Marks</h2>
+                </div>
+
+                <div class="student-table-container">
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Test Date</th>
+                                <th>Max Marks</th>
+                                <th>Obtained Marks</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mark in marks %}
+                            <tr>
+                                <td>{{ mark.subject }}</td>
+                                <td>{{ mark.test_date }}</td>
+                                <td>{{ mark.max_marks }}</td>
+                                <td>{{ mark.obtained_marks }}</td>
+                                <td>{{ (mark.obtained_marks / mark.max_marks * 100)|round|int }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        
+        
+        window.dashboardFunctions.initializeCharts(chartData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    {% if teacher.image_url %}
+                        <img src="{{ teacher.image_url }}" alt="Profile Picture">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-4x"></i>
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <h2>{{ teacher.name }}</h2>
+                    <p>ID: {{ teacher.teacher_id }}</p>
+                    <p>{{ teacher.department }}</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item" data-section="upload">
+                    <i class="fas fa-upload"></i>
+                    <span>Upload Image</span>
+                </a>
+                <a href="#" class="nav-item active" data-section="analysis">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analysis Report</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Teacher Dashboard</h1>
+                <div class="header-actions">
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Upload Image Section -->
+            <section id="upload" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Upload Profile Image</h2>
+                </div>
+                <div class="upload-container">
+                    <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+                        <div class="upload-box">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drag and drop your image here</h3>
+                            <p>or</p>
+                            <label for="image-upload" class="upload-button">Choose File</label>
+                            <input type="file" id="image-upload" name="image" accept="image/*" hidden>
+                        </div>
+                        <div class="preview-container" style="display: none;">
+                            <img id="image-preview" src="#" alt="Preview">
+                            <div class="button-group">
+                                <button type="submit" class="submit-button">Upload Image</button>
+                                <button type="button" class="cancel-button">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Analysis Report Section -->
+            <section id="analysis" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Student Analysis Report</h2>
+                    <div class="filter-controls">
+                        <select id="branch-filter" class="filter-select">
+                            <option value="">All Branches</option>
+                            <option value="CS">Computer Science</option>
+                            <option value="ME">Mechanical</option>
+                            <option value="EE">Electrical</option>
+                        </select>
+                        <select id="year-filter" class="filter-select">
+                            <option value="">All Years</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h3>Performance Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h3>Branch Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="branchChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Total Students</h4>
+                                <p>{{ total_students }}</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Average Score</h4>
+                                <p>{{ average_score }}%</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Top Performer</h4>
+                                <p>{{ top_performer }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-table-container">
+                        <table class="student-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Year</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{{ student.roll_number }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.branch }}</td>
+                                    <td>{{ student.year }}</td>
+                                    <td>{{ student.average_score }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        
+        
+        window.dashboardFunctions.initializeCharts(chartData);
+
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', updateAnalysis);
+        });
+
+        function updateAnalysis() {
+            const branch = document.getElementById('branch-filter').value;
+            const year = document.getElementById('year-filter').value;
+            
+            fetch(`/get_analysis?branch=${branch}&year=${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update stats
+                    document.querySelector('.stat-info p').textContent = data.total_students;
+                    document.querySelectorAll('.stat-info p')[1].textContent = data.average_score + '%';
+                    
+                    // Update charts
+                    window.dashboardFunctions.initializeCharts({
+                        performanceLabels: Object.keys(data.performance_trend),
+                        performanceData: Object.values(data.performance_trend),
+                        branchLabels: Object.keys(data.branch_distribution),
+                        branchData: Object.values(data.branch_distribution)
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

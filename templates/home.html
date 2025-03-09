@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="home-container">
+        <div class="header">
+            <h1>ANITS Management System</h1>
+            <p>Choose your role to login</p>
+        </div>
+
+        <div class="login-cards-container">
+            <div class="login-card student-card">
+                <div class="card-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Student Portal</h2>
+                <p>Access your courses and grades</p>
+                <div class="card-actions">
+                    <a href="{{ url_for('student_login') }}" class="login-btn">Login</a>
+                    <a href="{{ url_for('student_signup') }}" class="register-link">Register</a>
+                </div>
+            </div>
+
+            <div class="login-card teacher-card">
+                <div class="card-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h2>Teacher Portal</h2>
+                <p>Manage courses and students</p>
+                <div class="card-actions">
+                    <a href="{{ url_for('teacher_login') }}" class="login-btn">Login</a>
+                    <a href="{{ url_for('teacher_signup') }}" class="register-link">Register</a>
+                </div>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

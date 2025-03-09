@@ -1,0 +1,200 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5f6fa;
+    --text-color: #2d3436;
+    --success-color: #4CAF50;
+    --error-color: #f44336;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+}
+
+.signup-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.signup-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.student-theme {
+    border-top: 5px solid var(--primary-color);
+}
+
+.back-button {
+    margin-bottom: 1.5rem;
+}
+
+.back-button a {
+    color: #666;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.back-button a:hover {
+    color: #333;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.card-header h1 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    color: #666;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 2rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group i {
+    position: absolute;
+    left: 1rem;
+    color: #666;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+    color: #666;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.card-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.card-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.flash-message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.flash-message.error {
+    background-color: #ffebee;
+    color: var(--error-color);
+    border: 1px solid #ffcdd2;
+}
+
+.flash-message.success {
+    background-color: #e8f5e9;
+    color: var(--success-color);
+    border: 1px solid #c8e6c9;
+}
+
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 1rem;
+    }
+
+    .signup-card {
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
